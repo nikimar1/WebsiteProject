@@ -2,7 +2,7 @@ package com.quizwebsite.core.userservice;
 
 import org.apache.logging.log4j.*;
 
-import com.quizwebsite.core.usermodel.User;
+import com.quizwebsite.core.model.User;
 import com.quizwebsite.core.userservice.repository.UserRepo;
 
 import java.nio.charset.StandardCharsets;
@@ -87,7 +87,11 @@ public class UserLoginRegistrationService {
 		//encrypt user input
 		String encryptedPass = encryptPass(password,username);
 		
-		User temp = repo.findDistinctUserByUsername(currentUser.getUsername()).get(0);
+		List<User> tempList = repo.findDistinctUserByUsername(currentUser.getUsername());
+		User temp = null;
+		
+		if(!tempList.isEmpty())
+			temp = tempList.get(0);
 		
 		String passDb = null;
 		if(temp != null)

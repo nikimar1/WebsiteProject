@@ -23,8 +23,15 @@ export class LoginComponent implements OnInit {
   loginUser(){
     this._service.loginUserHTTP(this.user).subscribe(
       data => {
-        console.log("Login request received", )
-        this._router.navigate(['/loginsuccess'])
+        if(data.success)
+        {
+          console.log("Login success", )
+          this._router.navigate(['/loginsuccess'])
+        }
+        else
+        {
+          console.log("Login failed")
+        }
       }, 
       error => console.log("exception occured")
     )

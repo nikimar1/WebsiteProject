@@ -2,7 +2,7 @@ package com.quizwebsite.core.userservice.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.quizwebsite.core.usermodel.User;
+import com.quizwebsite.core.model.User;
 
 import java.util.List; 
 

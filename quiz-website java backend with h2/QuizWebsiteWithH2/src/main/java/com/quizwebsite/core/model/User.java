@@ -1,4 +1,4 @@
-package com.quizwebsite.core.usermodel;
+package com.quizwebsite.core.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
