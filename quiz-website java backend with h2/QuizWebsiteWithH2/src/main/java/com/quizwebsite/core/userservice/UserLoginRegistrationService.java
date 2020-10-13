@@ -2,12 +2,15 @@ package com.quizwebsite.core.userservice;
 
 import org.apache.logging.log4j.*;
 
+import com.quizwebsite.core.model.TestModel;
 import com.quizwebsite.core.model.User;
+import com.quizwebsite.core.userservice.repository.TestRepo;
 import com.quizwebsite.core.userservice.repository.UserRepo;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +23,14 @@ public class UserLoginRegistrationService {
 	
 	private User currentUser;
 	
+	private TestModel testTemp;
+	
 	//private UserDao serviceDAO = new UserDaoImplementation();
 	@Autowired
 	private UserRepo repo;
+	
+	@Autowired
+	private TestRepo testRepo;
 	
 	//constructors instantiate user
 	public UserLoginRegistrationService()
@@ -31,11 +39,12 @@ public class UserLoginRegistrationService {
 		currentUser = new User();
 	}
 	
-	public UserLoginRegistrationService(User current, UserRepo repo)
+	public UserLoginRegistrationService(User current, UserRepo repo, TestRepo testRepo)
 	{
 		super();
 		currentUser = current;
 		this.repo =repo;
+		this.testRepo=testRepo;
 	}
 	
 	//add salt based on username
@@ -115,6 +124,30 @@ public class UserLoginRegistrationService {
 		
 		User temp = repo.save(currentUser);
 		
+		//this creates a generic test model for testing purposes. 
+		//usually I would create many testmodels via a different admin console
+		TestModel testOne = new TestModel("TestOne", temp);
+		
+		TestModel testTwo = new TestModel("TestTwo", temp);
+		
+		TestModel testThree = new TestModel("TestThree", temp);
+		
+		TestModel testFour = new TestModel("TestFour", temp);
+		
+		testOne.setCompleted(true);
+		testTwo.setCompleted(false);
+		
+		testRepo.save(testOne);
+		
+		testRepo.save(testTwo);
+		
+		testRepo.save(testThree);
+		
+		testRepo.save(testFour);
+		
+		
+		
+		
 		//change to make it a response object eventually not just a boolean
 		
 		if( temp != null)
@@ -123,6 +156,40 @@ public class UserLoginRegistrationService {
 			return false;
 		
 		//return serviceDAO.addUser(currentUser);
+	}
+
+	public List<TestModel> listTests(boolean completed, String username) {
+		
+		
+		//System.out.println(username);
+		//get user by username passed from the token
+		List<User> userFromToken = repo.findDistinctUserByUsername(username);
+		
+		//get all tests with boolean completed and user user
+		List <TestModel> tests = testRepo.findByTestCompletedAndUser(completed, userFromToken.get(0));
+		
+		//parse to remove tests not belonging to the token user
+		//List <TestModel> yourTests =new ArrayList<TestModel>();
+		
+		//could potentially have a performance issue 
+		//so is there a more efficent way to do this? I am unable to pass in a user object with the token. 
+		//I could match token string username and findbyusername to get a user then use that as the parameter for findbycompletedanduser
+		//
+		//for (int i = 0;i<tests.size(); i++)
+		//{
+		//	
+		//	System.out.println(tests.get(i).getUser().getUsername());
+		//	System.out.println("while the username from token is "+ username);
+		//	if(tests.get(i).getUser().getUsername().equals(username))
+		//	{
+		//		yourTests.add(tests.get(i));
+		//	}
+		//}
+		
+		return tests;
+		
+		//return tests;
+		
 	}
 
 	

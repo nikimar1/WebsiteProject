@@ -21,6 +21,45 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	
+	// https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt
+	//compile group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '6.2'
+	
+	
+	//implementation 'keycloak-spring-boot-starter'
+	// Keycloak
+	//implementation 'org.keycloak:keycloak-spring-boot-starter'
+	//implementation 'org.keycloack:keycloak-spring-boot-2-adapter'
+	//implementation 'org.keycloak:keycloak-spring-security-adapter'
+	
+	//implementation 'org.springframework.boot:spring-boot-starter-security'
+	
+	// https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2
+	//compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.5.0.RELEASE'
+	
+	// https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2
+	//compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.0.RC1'
+	
+	// https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2
+	//compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.4.RELEASE'
+	
+	// https://mvnrepository.com/artifact/org.springframework.security.oauth.boot/spring-security-oauth2-autoconfigure
+	//compile group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.3.4.RELEASE'
+	
+
+    //compile 'org.keycloak:keycloak-spring-boot-starter'
+    
+    // https://mvnrepository.com/artifact/org.keycloak/keycloak-dependencies-server-all
+	//compile group: 'org.keycloak', name: 'keycloak-dependencies-server-all', version: '11.0.2', ext: 'pom'
+	
+    // https://mvnrepository.com/artifact/org.keycloak/keycloak-spring-boot-starter
+	//compile group: 'org.keycloak', name: 'keycloak-spring-boot-starter', version: '11.0.2'
+    
+
+    // Keycloak
+    //implementation 'org.keycloak:keycloak-spring-boot-starter'
+    
+    //implementation 'org.keycloak.bom:keycloak-adapter-bom'
+	
 	//added security
 	//implementation 'org.springframework.security.oauth:spring-security-oauth2'
 	//implementation 'org.springframework.security:spring-security-jwt'

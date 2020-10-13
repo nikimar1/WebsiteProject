@@ -9,6 +9,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { LoginSuccessComponent } from './login-success/login-success.component';
 import { RegisterSuccessComponent } from './register-success/register-success.component';
+import {TestComponent} from './test/test.component';
+import {GuardService} from './guard.service';
+
 
 @NgModule({
   declarations: [
@@ -16,7 +19,8 @@ import { RegisterSuccessComponent } from './register-success/register-success.co
     LoginComponent,
     RegistrationComponent,
     LoginSuccessComponent,
-    RegisterSuccessComponent
+    RegisterSuccessComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,

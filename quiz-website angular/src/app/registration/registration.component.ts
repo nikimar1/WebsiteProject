@@ -22,7 +22,7 @@ export class RegistrationComponent implements OnInit {
   registerUser(){
     this._service.registerUserHTTP(this.user).subscribe(
       data => {
-        console.log("Registration request received", )
+        console.log("Registration success", )
         this._router.navigate(['/registersuccess'])
       }, 
       error => console.log("exception occured")

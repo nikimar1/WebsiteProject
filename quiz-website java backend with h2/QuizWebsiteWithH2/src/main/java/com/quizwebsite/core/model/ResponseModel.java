@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class ResponseModel {
 	
-	private Date timestamp;
+	public Date timestamp;
 	private String formattedDate;
 	private boolean success;
 	private User user;

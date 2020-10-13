@@ -1,8 +1,16 @@
 package com.quizwebsite.core.model;
 
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -23,6 +31,17 @@ public class User implements Persistable<String> {
 	@Transient
 	private boolean update;
 
+	//id to be used for foreign key
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private long id;
+    
+    //@OneToMany(cascade = CascadeType.ALL)
+    //@JoinColumn(name = "test_id", referencedColumnName = "id")
+    //private List<TestModel> tests;
+    
+    @OneToMany(mappedBy="user")
+    private Set<TestModel> tests;
 	
 	public User(String pass, String username)
 	{

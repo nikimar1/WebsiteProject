@@ -1,1 +1,100 @@
+<!--  
 <p>login succeeded!</p>
+<span>{{sessionStorage.getItem('currentUser')}}</span>
+-->
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <ul class="list-group">
+        <div class="col-xs-1" align="center">
+        <p>Completed Tests:</p>
+      </div>
+        <li *ngFor="let test of testsDone | async; index as i" 
+          [class.selected]="test === selectedTest"
+          (click)="onClick(test)">
+          <span class="badge">{{ i + 1 }}</span> <span class="title">{{ test.title }}</span>
+        </li>
+      </ul>
+    </div>
+    <div class="col-sm">
+      <div class="col-xs-1" align="center">
+        <p>Pending Tests:</p>
+      </div>
+      <ul class="list-group">
+        <li *ngFor="let test of testsPending | async; index as i"
+          [class.selected]="test === selectedTest"
+          (click)="onClick(test)">
+          <span class="badge">{{ i + 1 }}</span> <span class="title">{{ test.title }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!--
+<div class="container h-100">
+  <div class="row h-100 justify-content-center align-items-center">-->
+    <!--<h1>Completed Tests:</h1>-->
+    <!--  <p>Completed Tests:</p>-->
+    <!--<ul class="list-group">
+      <li *ngFor="let test of testsDone | async; index as i" >
+        <span class="badge">{{ i + 1 }}</span> {{ test.title }}
+      </li>
+    </ul>
+  -->
+
+   
+<!--
+
+    <div *ngIf="selectedTest">
+
+      <h2>{{selectedTest.name | uppercase}} Details</h2>-->
+      <!--<div><span>id: </span>{{selectedHero.id}}</div>-->
+      <!--<div>
+        <label>name:
+          <input [(ngModel)]="selectedTest.name" placeholder="name"/>
+        </label>
+      </div>
+    
+    </div>-->
+
+   <!--  <p>Completed Tests:</p>-->
+
+
+
+<!--
+  </div>
+</div>
+
+<div class="container h-100">
+  <div class="row h-100 justify-content-center align-items-center"> -->
+    <!--<h1>Pending Tests:</h1>-->
+    <!--  <p>Completed Tests:</p>-->
+    <!--<ul class="list-group">
+      <li *ngFor="let test of testsPending | async; index as i" >
+        <span class="badge">{{ i + 1 }}</span> {{ test.title }}
+      </li>
+    </ul>
+  </div>
+</div>
+
+-->
+   <!--
+<div class="container h-100">
+  <div class="row h-100 justify-content-center align-items-center">    --> 
+    <!--  <p>Pending Tests:</p>-->
+
+    <!--
+    <ul class="list-group">
+      <li *ngFor="let test of pending" [class.selected]="test === selectedTest"
+      (click)="onSelect(test)">
+      {{test}}
+      </li>
+    </ul>
+  </div>
+</div>
+
+--> 
