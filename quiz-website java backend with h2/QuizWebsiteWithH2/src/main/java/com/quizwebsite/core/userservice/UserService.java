@@ -2,8 +2,10 @@ package com.quizwebsite.core.userservice;
 
 import org.apache.logging.log4j.*;
 
+import com.quizwebsite.core.model.QuestionModel;
 import com.quizwebsite.core.model.TestModel;
 import com.quizwebsite.core.model.User;
+import com.quizwebsite.core.userservice.repository.QuestionRepo;
 import com.quizwebsite.core.userservice.repository.TestRepo;
 import com.quizwebsite.core.userservice.repository.UserRepo;
 
@@ -19,11 +21,11 @@ import org.springframework.stereotype.Service;
 //IMPORTANT. REPLACE E stack trace and system out print lin with log4j logging later
 
 @Service
-public class UserLoginRegistrationService {
+public class UserService {
 	
 	private User currentUser;
 	
-	private TestModel testTemp;
+	//private TestModel testTemp;
 	
 	//private UserDao serviceDAO = new UserDaoImplementation();
 	@Autowired
@@ -32,19 +34,24 @@ public class UserLoginRegistrationService {
 	@Autowired
 	private TestRepo testRepo;
 	
+	@Autowired 
+	private QuestionRepo questionRepo;
+	
+	
 	//constructors instantiate user
-	public UserLoginRegistrationService()
+	public UserService()
 	{
 		super();
 		currentUser = new User();
 	}
 	
-	public UserLoginRegistrationService(User current, UserRepo repo, TestRepo testRepo)
+	public UserService(User current, UserRepo repo, TestRepo testRepo, QuestionRepo questionRepo)
 	{
 		super();
 		currentUser = current;
 		this.repo =repo;
 		this.testRepo=testRepo;
+		this.questionRepo=questionRepo;
 	}
 	
 	//add salt based on username
@@ -125,7 +132,7 @@ public class UserLoginRegistrationService {
 		User temp = repo.save(currentUser);
 		
 		//this creates a generic test model for testing purposes. 
-		//usually I would create many testmodels via a different admin console
+		//usually I would create many testmodels via a different admin console but am hardcoridng them as well as questions
 		TestModel testOne = new TestModel("TestOne", temp);
 		
 		TestModel testTwo = new TestModel("TestTwo", temp);
@@ -137,6 +144,8 @@ public class UserLoginRegistrationService {
 		testOne.setCompleted(true);
 		testTwo.setCompleted(false);
 		
+		testOne.setScore("\"1/1\"");
+		
 		testRepo.save(testOne);
 		
 		testRepo.save(testTwo);
@@ -145,7 +154,17 @@ public class UserLoginRegistrationService {
 		
 		testRepo.save(testFour);
 		
+		QuestionModel qOne = new QuestionModel("What is 1+1", 1, testTwo, "1", "2", "3","4", "b");
 		
+		QuestionModel qTwo = new QuestionModel("What is 1+2", 1, testThree, "1", "2", "3","4", "c");
+		
+		QuestionModel qThree = new QuestionModel("What is 1+3", 1, testFour, "1", "2", "3","4", "d");
+		
+		questionRepo.save(qOne);
+		
+		questionRepo.save(qTwo);
+		
+		questionRepo.save(qThree);
 		
 		
 		//change to make it a response object eventually not just a boolean
@@ -164,6 +183,10 @@ public class UserLoginRegistrationService {
 		//System.out.println(username);
 		//get user by username passed from the token
 		List<User> userFromToken = repo.findDistinctUserByUsername(username);
+		
+		
+		//System.out.println(userFromToken.size());
+		//System.out.println(userFromToken.get(0));
 		
 		//get all tests with boolean completed and user user
 		List <TestModel> tests = testRepo.findByTestCompletedAndUser(completed, userFromToken.get(0));
@@ -189,6 +212,114 @@ public class UserLoginRegistrationService {
 		return tests;
 		
 		//return tests;
+		
+	}
+	
+	public List <QuestionModel> getQuestions(String testName, String username)
+	{
+		List<User> temp = repo.findDistinctUserByUsername(username);
+		
+		//System.out.println("ALERT THIS IS THE SIZE OF THE ARRAY CONTAINING USERS");
+		//System.out.println(temp.size());
+		
+		//System.out.println("this is the test name im looking for");
+		//System.out.println(testName);
+		
+		List <TestModel> currentTest = testRepo.findByTestTitleAndUser(testName, temp.get(0));
+		
+		//System.out.println("ALERT THIS IS THE SIZE OF THE ARRAY CONTAINING tests");
+		//System.out.println(currentTest.size());
+		
+		//System.out.println("this is the question number");
+		//System.out.println(questionNumber);
+		
+		//System.out.println("this is the test name");
+		//System.out.println(testName);
+		
+		
+		//System.out.println("this is the user name");
+		//System.out.println(username);
+		
+		
+		List <QuestionModel> questions = questionRepo.findByTestModel( currentTest.get(0));
+		
+		//System.out.println(tempQuestion.qetQuestionBody());
+		
+		//every time we start a new test reset correctness if it was not completed previously
+		if(!currentTest.get(0).getCompleted())
+		{
+			for(int i = 0; i <questions.size();i++)
+			{
+				questions.get(i).resetCorrect();
+				
+				//maybe save all in the end not just in the for loop
+				//is object trackable or not trackable/ detached with jpa/orm
+				//make sure everything rolls back / gets reset even if some error or connection thrown off. no inconsistent state.
+				questionRepo.save(questions.get(i));
+			}
+		}
+		
+		
+		return questions;
+	}
+
+	public boolean submitAnswer(String answer, String testTitle, int questionNumber, String username) {
+		List<User> temp = repo.findDistinctUserByUsername(username);
+		List <TestModel> currentTest = testRepo.findByTestTitleAndUser(testTitle, temp.get(0));
+		
+		//System.out.println(currentTest.size());
+		//System.out.println(questionNumber);
+		//System.out.println(currentTest.get(0).getTitle());
+		List <QuestionModel> questions = questionRepo.findByTestModelAndQuestionNumber( currentTest.get(0), questionNumber);
+		
+		QuestionModel currentQuestion = questions.get(0);
+		boolean answerCorrect = currentQuestion.checkAnswer(answer);
+		
+		//execute update
+		questionRepo.save(currentQuestion);
+		
+		return answerCorrect;
+	}
+
+	public String completeTest(String testTitle, String username) {
+		
+		
+		
+		List<User> temp = repo.findDistinctUserByUsername(username);
+		List <TestModel> currentTest = testRepo.findByTestTitleAndUser(testTitle, temp.get(0));
+		
+		//System.out.println(currentTest.size());
+		//System.out.println(testTitle);
+		
+		if(currentTest.get(0).getCompleted())
+			return currentTest.get(0).getScore();
+		else
+		{
+			currentTest.get(0).setCompleted(true);
+			
+			List <QuestionModel> questionsToScore = questionRepo.findByTestModel(currentTest.get(0));
+			
+			System.out.println("iterating over questions");
+			int totalQuestions = 0;
+			int totalRight = 0;
+			for (QuestionModel question: questionsToScore)
+			{
+				totalQuestions++;
+				if (question.getCorrect())
+					totalRight++;
+			}
+			
+			
+			String result = "\""+totalRight +"/"+totalQuestions+"\"";
+			
+			currentTest.get(0).setScore(result);
+			
+			testRepo.save(currentTest.get(0));
+			
+			System.out.println("the result is " + result);
+			
+			return result;
+		}
 		
 	}
 

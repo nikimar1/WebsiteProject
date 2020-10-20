@@ -1,5 +1,7 @@
 package com.quizwebsite.core.model;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,10 +27,16 @@ public class TestModel {
 	 
 	@Id
 	@Column(columnDefinition="varchar(50)")
-	private String TestTitle;
+	private String testTitle;
 	 
 	@Column(name = "testCompleted")
 	private boolean testCompleted;
+	
+	@OneToMany(mappedBy="testModel")
+	private Set<QuestionModel> questions;
+	
+	@Column( name = "score")
+	private String score;
 	
 	 
 	//foreign key from user table mapped by username
@@ -47,7 +55,7 @@ public class TestModel {
 	 
 	public TestModel(String title, User user)
 	{
-		 this.TestTitle= title;
+		 this.testTitle= title;
 		 this.user = user;
 		 this.testCompleted=false;
 	}
@@ -56,10 +64,26 @@ public class TestModel {
 	{
 		this.testCompleted=completed;
 	}
+	
+	public boolean getCompleted()
+	{
+		return this.testCompleted;
+	}
+	
+	
+	//for setting score upon test completion
+	public void setScore(String score)
+	{
+		this.score=score;
+	}
 
+	public String getScore()
+	{
+		return this.score;
+	}
 
 	public String getTitle() {
-		return this.TestTitle;
+		return this.testTitle;
 	}
 	
 	public User getUser()

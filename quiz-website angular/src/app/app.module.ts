@@ -11,6 +11,7 @@ import { LoginSuccessComponent } from './login-success/login-success.component';
 import { RegisterSuccessComponent } from './register-success/register-success.component';
 import {TestComponent} from './test/test.component';
 import {GuardService} from './guard.service';
+import { ScorePageComponent } from './score-page/score-page.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import {GuardService} from './guard.service';
     RegistrationComponent,
     LoginSuccessComponent,
     RegisterSuccessComponent,
-    TestComponent
+    TestComponent,
+    ScorePageComponent
   ],
   imports: [
     BrowserModule,

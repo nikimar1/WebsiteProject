@@ -1,1 +1,23 @@
-<p>test works!</p>
+<div class="container">
+    <div class="row">
+      <div class="col-sm">
+        <ul class="list-group">
+          <div class="col-xs-1" align="center">
+          <p>{{ currentQuestionBody }}?</p>
+        </div>
+          <li (click)="onClick('A')">
+            <span class="badge">A</span> <span class="title">{{ currentChoiceA }}</span>
+        </li>
+        <li (click)="onClick('B')">
+            <span class="badge">B</span> <span class="title">{{ currentChoiceB }}</span>
+        </li>
+        <li (click)="onClick('C')">
+            <span class="badge">C</span> <span class="title">{{ currentChoiceC }}</span>
+        </li>
+        <li (click)="onClick('D')">
+            <span class="badge">D</span> <span class="title">{{ currentChoiceD }}</span>
+        </li>
+          
+        </ul>
+    </div>
+</div>

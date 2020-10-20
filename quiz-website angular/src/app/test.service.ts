@@ -8,6 +8,8 @@ import { User } from './user';
 })
 export class TestService {
 
+  currentTest : string;
+
   private baseUrl = 'http://localhost:8081/tests';
 
   //var currentUser = JSON.parse(`${sessionStorage.getItem("currentUser")}`;
@@ -35,10 +37,14 @@ export class TestService {
   }
 
 
-  startTest( testTitle: String)
+  startTest( testTitle: string)
   {
+
+    this.currentTest= testTitle;
+    sessionStorage.setItem("currentTest", this.currentTest)
     //return this._http.post<boolean>("http://localhost:8081/testing",testTitle)
-    
-    
   }
+
+
+  
 }

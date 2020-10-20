@@ -31,7 +31,6 @@ public class User implements Persistable<String> {
 	@Transient
 	private boolean update;
 
-	//id to be used for foreign key
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private long id;

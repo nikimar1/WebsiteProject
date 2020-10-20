@@ -13,7 +13,7 @@
       </div>
         <li *ngFor="let test of testsDone | async; index as i" 
           [class.selected]="test === selectedTest"
-          (click)="onClick(test)">
+          (click)="onClickCompleted(test.title)">
           <span class="badge">{{ i + 1 }}</span> <span class="title">{{ test.title }}</span>
         </li>
       </ul>
@@ -25,7 +25,7 @@
       <ul class="list-group">
         <li *ngFor="let test of testsPending | async; index as i"
           [class.selected]="test === selectedTest"
-          (click)="onClick(test)">
+          (click)="onClick(test.title)">
           <span class="badge">{{ i + 1 }}</span> <span class="title">{{ test.title }}</span>
         </li>
       </ul>

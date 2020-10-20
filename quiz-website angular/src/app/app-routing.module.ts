@@ -5,6 +5,7 @@ import {LoginSuccessComponent } from './login-success/login-success.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterSuccessComponent } from './register-success/register-success.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { ScorePageComponent } from './score-page/score-page.component';
 import { TestComponent } from './test/test.component';
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path:'register',component:RegistrationComponent},
   {path:'registersuccess',component:RegisterSuccessComponent},
   {path:'test',component:TestComponent,  canActivate : [GuardService]},
+  {path: 'score',component:ScorePageComponent, canActivate: [GuardService]},
   { path: '**', redirectTo: '' }
 ];
 
